@@ -21,7 +21,7 @@ else:
 
 
 app = Flask(__name__)
-CORS(app, resources={"/*": {"origin": "0.0.0.0"}})
+CORS(app, resources={"/*": {"origins": "0.0.0.0"}})
 app.register_blueprint(app_views)
 app.url_map.strict_slashes = False
 
