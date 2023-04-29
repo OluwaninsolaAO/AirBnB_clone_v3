@@ -45,7 +45,7 @@ def delete_place(place_id):
 
 @app_views.route('/cities/<city_id>/places',
                  methods=['POST'], strict_slashes=False)
-def create_place():
+def create_place(city_id):
     """Add a new Place object for a matching city id and user_id"""
     from models.user import User
     city = storage.get(City, city_id)
