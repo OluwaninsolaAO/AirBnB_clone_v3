@@ -19,7 +19,6 @@ def get_reviews(place_id):
     if storage_t == "db":
         return jsonify([review.to_dict() for review in place.reviews])
     return jsonify([review.to_dict() for review in place.reviews()])
-    
 
 
 @app_views.route('/reviews/<review_id>', methods=['GET'],
