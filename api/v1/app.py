@@ -4,6 +4,7 @@
 """
 
 from flask import Flask, jsonify
+from flask_cors import CORS
 from models import storage
 from api.v1.views import app_views
 from os import environ
@@ -20,6 +21,7 @@ else:
 
 
 app = Flask(__name__)
+CORS(app, resources={"/*": {"origin": "0.0.0.0"}})
 app.register_blueprint(app_views)
 app.url_map.strict_slashes = False
 
