@@ -48,7 +48,7 @@ def delete_review(review_id):
 def create_review(place_id):
     """Add a new review object for a matching place id and user_id"""
     from models.user import User
-    place = storage.get(place, place_id)
+    place = storage.get(Place, place_id)
     if place is None:
         abort(404)
 
