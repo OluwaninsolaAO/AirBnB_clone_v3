@@ -10,7 +10,7 @@ from models.place import Place
 
 @app_views.route('/places/<place_id>/amenities',
                  methods=['GET'], strict_slashes=False)
-def get_amenities(place_id):
+def get_amenities2(place_id):
     """Returns a list of all amenity objects for a place"""
     place = storage.get(Place, place_id)
     if place is None:
