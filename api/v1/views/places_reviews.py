@@ -3,7 +3,7 @@
 
 from api.v1.views import app_views
 from flask import jsonify, abort, request
-from models import storage
+from models import storage, storage_t
 from models.review import Review
 from models.place import Place
 
@@ -16,7 +16,10 @@ def get_reviews(place_id):
     if place is None:
         abort(404)
 
-    return jsonify([review.to_dict() for review in place.reviews])
+    if storage_t == "db":
+        return jsonify([review.to_dict() for review in place.reviews])
+    return jsonify([review.to_dict() for review in place.reviews()])
+    
 
 
 @app_views.route('/reviews/<review_id>', methods=['GET'],
