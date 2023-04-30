@@ -62,7 +62,7 @@ def create_review(place_id):
     elif 'text' not in data:
         return jsonify({'error': 'Missing text'}), 400
 
-    review = review(text=data['text'],
+    review = Review(text=data['text'],
                     place_id=place.id, user_id=data['user_id'])
     review.save()
     return jsonify(review.to_dict()), 201
