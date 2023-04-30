@@ -26,6 +26,16 @@ class User(BaseModel, Base):
         first_name = ""
         last_name = ""
 
+    def __init__(self, *args, **kwargs):
+        """initializes user"""
+        super().__init__(*args, **kwargs)
+        if kwargs:
+            if len(kwargs['password']) != 32:
+                self._password = hashlib.md5(
+                    kwargs['password'].encode('utf8')).hexdigest()
+            else:
+                self._password = kwargs['password']
+
     @property
     def password(self):
         """returns the user's password"""
