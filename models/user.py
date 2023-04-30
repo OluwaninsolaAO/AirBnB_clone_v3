@@ -38,8 +38,8 @@ class User(BaseModel, Base):
     #     """returns the user's password"""
     #     return self.password
 
-    @SetterProperty
-    def password(self, value):
-        """sets user's password"""
-        self.password = hashlib.md5(
-            value.encode('utf8')).hexdigest()
+    # @password.setter
+    # def password(self, value):
+    #     """sets user's password"""
+    #     self.password = hashlib.md5(
+    #         value.encode('utf8')).hexdigest()
