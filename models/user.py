@@ -21,35 +21,35 @@ class User(BaseModel, Base):
         places = relationship("Place", backref="user", cascade="delete")
         reviews = relationship("Review", backref="user", cascade="delete")
 
-        @hybrid_property
-        def password(self):
-            """returns the user's password"""
-            return self._password
+        # @hybrid_property
+        # def password(self):
+        #     """returns the user's password"""
+        #     return self._password
 
-        @password.setter
-        def password(self, value):
-            """"""
-            self._password = hashlib.md5(
-                value.encode('utf8')).hexdigest()
+        # @password.setter
+        # def password(self, value):
+        #     """"""
+        #     self._password = hashlib.md5(
+        #         value.encode('utf8')).hexdigest()
     else:
         email = ""
-        password = ""
+        _password = ""
         first_name = ""
         last_name = ""
-
-        @property
-        def password(self):
-            """returns the user's password"""
-            return self._password
-
-        @password.setter
-        def password(self, value):
-            """set the user's password"""
-            self._password = hashlib.md5(
-                value.encode('utf8')).hexdigest()
 
     def __init__(self, *args, **kwargs):
         """initializes user"""
         super().__init__(*args, **kwargs)
         self._password = hashlib.md5(
             kwargs['password'].encode('utf8')).hexdigest()
+
+    @property
+    def password(self):
+        """returns the user's password"""
+        return self._password
+
+    @password.setter
+    def password(self, value):
+        """set the user's password"""
+        self._password = hashlib.md5(
+            value.encode('utf8')).hexdigest()
