@@ -33,9 +33,21 @@ class User(BaseModel, Base):
                 value.encode('utf8')).hexdigest()
     else:
         email = ""
-        password = ""
+        _password = ""
         first_name = ""
         last_name = ""
+
+        @property
+        def password(self):
+            """returns the user's password"""
+            return self._password
+
+        @password.setter
+        def password(self, value):
+            """"""
+            self._password = hashlib.md5(
+                value.encode('utf8')).hexdigest()
+        
 
     def __init__(self, *args, **kwargs):
         """initializes user"""
