@@ -94,7 +94,7 @@ def update_place(place_id):
 
 @app_views.route('/places_search',
                  methods=['POST'], strict_slashes=False)
-def get_places():
+def get_places2():
     """Returns a list of all Places objects"""
     data = request.get_json(silent=True)
     if data is None:
