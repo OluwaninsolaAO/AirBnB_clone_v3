@@ -69,7 +69,7 @@ class BaseModel:
         if "_sa_instance_state" in new_dict:
             del new_dict["_sa_instance_state"]
         if new_dict["__class__"] == "User" and not saveAsFile:
-            del new_dict["password"]
+            del new_dict["_password"]
         return new_dict
 
     def delete(self):
