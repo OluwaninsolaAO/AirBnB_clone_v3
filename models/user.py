@@ -33,7 +33,7 @@ class User(BaseModel, Base):
                 value.encode('utf8')).hexdigest()
     else:
         email = ""
-        _password = ""
+        password = ""
         first_name = ""
         last_name = ""
 
