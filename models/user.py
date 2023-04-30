@@ -31,13 +31,15 @@ class User(BaseModel, Base):
         self.password = hashlib.md5(
             kwargs['password'].encode('utf8')).hexdigest()
 
+
+    
     # @property
     # def password(self):
     #     """returns the user's password"""
     #     return self.password
 
-    # @password.setter
-    # def password(self, value):
-    #     """sets user's password"""
-    #     self.password = hashlib.md5(
-    #         value.encode('utf8')).hexdigest()
+    @SetterProperty
+    def password(self, value):
+        """sets user's password"""
+        self.password = hashlib.md5(
+            value.encode('utf8')).hexdigest()
