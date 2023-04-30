@@ -20,17 +20,6 @@ class User(BaseModel, Base):
         last_name = Column(String(128), nullable=True)
         places = relationship("Place", backref="user", cascade="delete")
         reviews = relationship("Review", backref="user", cascade="delete")
-
-        # @hybrid_property
-        # def password(self):
-        #     """returns the user's password"""
-        #     return self._password
-
-        # @password.setter
-        # def password(self, value):
-        #     """"""
-        #     self._password = hashlib.md5(
-        #         value.encode('utf8')).hexdigest()
     else:
         email = ""
         _password = ""
