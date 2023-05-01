@@ -20,6 +20,20 @@ class City(BaseModel, Base):
         state_id = ""
         name = ""
 
+        @property
+        def places(self):
+            """Returns a list of places within a city"""
+            from models.place import Place
+            from models import storage
+
+            resp = []
+
+            for place in storage.all(Place).values():
+                if place.city_id == self.id:
+                    resp.append(place)
+
+            return resp
+
     def __init__(self, *args, **kwargs):
         """initializes city"""
         super().__init__(*args, **kwargs)
