@@ -137,6 +137,11 @@ def place_search():
     results = set()
     for place in places:
         if len(set(a_filter).intersection(set(place.amenities))):
+            #  patch SQLAlchemy bug
+            try:
+                del place.amenities
+            except AttributeError:
+                pass
             results.add(place)
 
     return jsonify([place.to_dict() for place in results])
