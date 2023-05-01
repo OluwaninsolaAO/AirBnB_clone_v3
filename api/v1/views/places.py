@@ -6,6 +6,8 @@ from flask import jsonify, abort, request
 from models import storage
 from models.place import Place
 from models.city import City
+from models.state import State
+from models.amenity import Amenity
 
 
 @app_views.route('/cities/<city_id>/places',
@@ -92,14 +94,49 @@ def update_place(place_id):
     return jsonify(place.to_dict()), 200
 
 
-@app_views.route('/places_search',
-                 methods=['POST'], strict_slashes=False)
-def get_places2():
-    """Returns a list of all Places objects"""
+@app_views.route('/places_search', methods=['POST'],
+                 strict_slashes=False)
+def place_search():
+    """Returns a list of all Places objects matching search data"""
+
     data = request.get_json(silent=True)
     if data is None:
         return jsonify({'error': 'Not a JSON'}), 400
 
-    if not data and not data['states'] and not data['cities']\
-            and not data['amenities']:
-        return [place.to_dict() for place in storage.all(Place).values()]
+    states = data.get('states', [])
+    cities = data.get('cities', [])
+    amenities = data.get('amenities', [])
+
+    places = set()
+
+    #  If states and cities are empty; retrive all Place objects
+    if not (len(states) + len(cities)):
+        places.update(storage.all(Place).values())
+        if not len(amenities):
+            return jsonify([place.to_dict() for place in places])
+    else:  # else
+        for state_id in states:
+            state = storage.get(State, state_id)
+            if state is None:
+                abort(404)
+            for city in state.cities:
+                places.update(city.places)
+
+        for city_id in cities:
+            city = storage.get(City, city_id)
+            if city is None:
+                abort(404)
+            places.update(city.places)
+
+    if not len(amenities):
+        return jsonify([place.to_dict() for place in places])
+
+    #  Filter results with amenities if exists
+    a_filter = [storage.get(Amenity, amenity_id) for amenity_id in
+                amenities if storage.get(Amenity, amenity_id) is not None]
+    results = set()
+    for place in places:
+        if len(set(a_filter).intersection(set(place.amenities))):
+            results.add(place)
+
+    return jsonify([place.to_dict() for place in results])
